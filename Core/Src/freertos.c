@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -181,7 +182,7 @@ void StartDefaultTask(void const * argument)
   {
 
 	  HAL_GPIO_TogglePin(GPIOI,LD1_Pin);
-    osDelay(500);
+	  osDelay(2500);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -201,10 +202,11 @@ void StartTask02(void const * argument)
   for(;;)
   {
 	  // Transmit message over UART
-	          HAL_UART_Transmit(&huart1, msg, sizeof(msg)-1, HAL_MAX_DELAY);
+	          //HAL_UART_Transmit(&huart1, msg, sizeof(msg)-1, HAL_MAX_DELAY);
+	  printf("%s",msg);
 
-	          // Delay for 1 second
-	          osDelay(1000);
+	  // Delay for 1 second
+	  osDelay(3000);
   }
   /* USER CODE END StartTask02 */
 }
