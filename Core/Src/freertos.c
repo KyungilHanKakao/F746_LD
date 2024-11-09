@@ -23,7 +23,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart.h"
@@ -182,6 +181,9 @@ void StartDefaultTask(void const * argument)
   {
 
 	  HAL_GPIO_TogglePin(GPIOI,LD1_Pin);
+	  HAL_GPIO_TogglePin(GPIOB,LD2_Pin);
+	  HAL_GPIO_TogglePin(GPIOB,LD3_Pin);
+	  HAL_GPIO_TogglePin(GPIOA,LD4_Pin);
 	  osDelay(2500);
   }
   /* USER CODE END StartDefaultTask */

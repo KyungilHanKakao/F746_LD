@@ -47,6 +47,7 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -73,8 +74,8 @@ void Error_Handler(void);
 #define ARDUINO_SCL_D15_GPIO_Port GPIOB
 #define ULPI_D7_Pin GPIO_PIN_5
 #define ULPI_D7_GPIO_Port GPIOB
-#define ARDUINO_PWM_D3_Pin GPIO_PIN_4
-#define ARDUINO_PWM_D3_GPIO_Port GPIOB
+#define ARDUINO_D3_Pin GPIO_PIN_4
+#define ARDUINO_D3_GPIO_Port GPIOB
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 #define SPDIF_RX0_Pin GPIO_PIN_7
@@ -171,8 +172,8 @@ void Error_Handler(void);
 #define SDMMC_CMD_GPIO_Port GPIOD
 #define TP3_Pin GPIO_PIN_15
 #define TP3_GPIO_Port GPIOH
-#define LD1_Pin GPIO_PIN_1
-#define LD1_GPIO_Port GPIOI
+#define ARDUINO_D13_Pin GPIO_PIN_1
+#define ARDUINO_D13_GPIO_Port GPIOI
 #define OTG_FS_ID_Pin GPIO_PIN_10
 #define OTG_FS_ID_GPIO_Port GPIOA
 #define RCC_OSC32_IN_Pin GPIO_PIN_14
@@ -197,8 +198,8 @@ void Error_Handler(void);
 #define LCD_G6_GPIO_Port GPIOK
 #define LCD_G7_Pin GPIO_PIN_2
 #define LCD_G7_GPIO_Port GPIOK
-#define ARDUINO_PWM_D10_Pin GPIO_PIN_8
-#define ARDUINO_PWM_D10_GPIO_Port GPIOA
+#define ARDUINO_D10_Pin GPIO_PIN_8
+#define ARDUINO_D10_GPIO_Port GPIOA
 #define OSC_25M_Pin GPIO_PIN_0
 #define OSC_25M_GPIO_Port GPIOH
 #define FMC_A2_Pin GPIO_PIN_2
@@ -377,12 +378,18 @@ void Error_Handler(void);
 #define FMC_D10_GPIO_Port GPIOE
 #define ULPI_D4_Pin GPIO_PIN_11
 #define ULPI_D4_GPIO_Port GPIOB
-#define ARDUINO_MISO_D12_Pin GPIO_PIN_14
-#define ARDUINO_MISO_D12_GPIO_Port GPIOB
-#define ARDUINO_MOSI_PWM_D11_Pin GPIO_PIN_15
-#define ARDUINO_MOSI_PWM_D11_GPIO_Port GPIOB
+#define ARDUINO_D12_Pin GPIO_PIN_14
+#define ARDUINO_D12_GPIO_Port GPIOB
+#define ARDUINO_D11_Pin GPIO_PIN_15
+#define ARDUINO_D11_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+#define LD1_Pin ARDUINO_D13_Pin
+#define LD2_Pin ARDUINO_D12_Pin
+#define LD3_Pin ARDUINO_D11_Pin
+#define LD4_Pin ARDUINO_D10_Pin
+
+#define Buzzer_Pin ARDUINO_D_Pin
 
 /* USER CODE END Private defines */
 
