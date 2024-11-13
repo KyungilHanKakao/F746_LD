@@ -115,7 +115,18 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
+#define LWIP_NETCONN            1  // Enable Netconn API support
+#define LWIP_SOCKET             1  // Disable Sockets API if not needed
+#define IP_DEFAULT_TTL 32
 
+//#define LWIP_DEBUG 1  // Enable lwIP debugging
+
+// Enable specific debug options
+#define TCP_DEBUG       LWIP_DBG_ON    // Enable TCP debugging
+//#define UDP_DEBUG       LWIP_DBG_ON    // Enable UDP debugging
+//#define DHCP_DEBUG      LWIP_DBG_ON    // Enable DHCP debugging
+//#define NETIF_DEBUG     LWIP_DBG_ON    // Enable Network Interface debugging
+//#define ETHARP_DEBUG    LWIP_DBG_ON    // Enable ARP debugging
 /* USER CODE END 1 */
 
 #ifdef __cplusplus

@@ -27,6 +27,12 @@
 /* USER CODE BEGIN Includes */
 #include "usart.h"
 #include <stdio.h>
+#include "lwip/api.h"
+#include "lwip/sys.h"
+#include "lwip/netdb.h"
+#include "lwip/sockets.h"
+#include "lwip/inet.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,6 +42,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define SERVER_IP   "192.168.0.27"  // Replace with your server's IP address
+#define SERVER_PORT 6000             // Replace with your server's port
 
 /* USER CODE END PD */
 
@@ -53,7 +61,77 @@ osThreadId myTask02Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+void tcp_client_task(void *arg) {
 
+
+
+
+	int sock;
+	    struct sockaddr_in server_addr;
+	    char message[] = "Hello from STM32";
+	    char buffer[1024];
+	    int bytes_received;
+
+	    // Create socket
+	    sock = socket(AF_INET, SOCK_STREAM, 0);
+	    if (sock < 0) {
+	        printf("Failed to create socket\n");
+	        vTaskDelete(NULL);
+	        return;
+	    }
+
+	    // Set up the server address structure
+		memset(&server_addr, 0, sizeof(server_addr));
+		server_addr.sin_family = AF_INET;
+		server_addr.sin_port = htons(SERVER_PORT);
+	    if (!inet_aton(SERVER_IP, &server_addr.sin_addr)) {
+	            printf("Invalid IP address\n");
+	            lwip_close(sock);
+	            return;
+	        }
+
+	    // Set up server address
+	    //server_addr.sin_family = AF_INET;
+	    //server_addr.sin_port = 6000;//htons(SERVER_PORT);
+	    //inet_aton(SERVER_IP, &server_addr.sin_addr);
+
+
+
+	    // Connect to server
+	    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+	        printf("Failed to connect to server : %d\n", errno);
+	        close(sock);
+	        vTaskDelete(NULL);
+
+	        return;
+	    }
+
+	    printf("Connected to server\n");
+
+	    // Send data to server
+	    if (send(sock, message, strlen(message), 0) < 0) {
+	        printf("Failed to send data\n");
+	        close(sock);
+	        vTaskDelete(NULL);
+	        return;
+	    }
+
+	    printf("Data sent successfully\n");
+
+	    // Receive data from server
+	    bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0);
+	    if (bytes_received > 0) {
+	        buffer[bytes_received] = '\0';  // Null-terminate received data
+	        printf("Received from server: %s\n", buffer);
+	    } else {
+	        printf("Failed to receive data\n");
+	    }
+
+	    // Close socket and clean up
+	    close(sock);
+
+	    vTaskDelete(NULL);  // Delete task after completion
+}
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -155,7 +233,7 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of myTask02 */
-  osThreadDef(myTask02, StartTask02, osPriorityIdle, 0, 128);
+  osThreadDef(myTask02, StartTask02, osPriorityLow, 0, 512);
   myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -176,12 +254,15 @@ void StartDefaultTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN StartDefaultTask */
+  osDelay(10000);
+
+
+  tcp_client_task((void*)argument);
   /* Infinite loop */
   for(;;)
   {
 
-	  HAL_GPIO_TogglePin(GPIOI,LD1_Pin);
-	  osDelay(2500);
+	  osDelay(1);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -204,8 +285,9 @@ void StartTask02(void const * argument)
 	          //HAL_UART_Transmit(&huart1, msg, sizeof(msg)-1, HAL_MAX_DELAY);
 	  printf("%s",msg);
 
+	  HAL_GPIO_TogglePin(GPIOI,LD1_Pin);
 	  // Delay for 1 second
-	  osDelay(3000);
+	  osDelay(1000);
   }
   /* USER CODE END StartTask02 */
 }
