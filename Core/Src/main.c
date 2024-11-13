@@ -23,10 +23,10 @@
 #include "crc.h"
 #include "dcmi.h"
 #include "dma2d.h"
-#include "eth.h"
 #include "fatfs.h"
 #include "i2c.h"
 #include "ltdc.h"
+#include "lwip.h"
 #include "quadspi.h"
 #include "rtc.h"
 #include "sai.h"
@@ -34,7 +34,7 @@
 #include "spdifrx.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_host.h"
+#include "usb_otg.h"
 #include "gpio.h"
 #include "fmc.h"
 
@@ -124,7 +124,6 @@ int main(void)
   MX_CRC_Init();
   MX_DCMI_Init();
   MX_DMA2D_Init();
-  MX_ETH_Init();
   MX_FMC_Init();
   MX_I2C1_Init();
   MX_I2C3_Init();
@@ -143,6 +142,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART6_UART_Init();
   MX_FATFS_Init();
+  MX_USB_OTG_FS_HCD_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
